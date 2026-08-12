@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#080b12" />
+    <title>Foxy Suit Control</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">FOXY // SUIT CONTROL</p>
+          <h1>Command Deck</h1>
+        </div>
+        <button class="connection-button" id="connectButton" type="button" aria-label="Connect to suit">
+          <span class="connection-dot" aria-hidden="true"></span>
+          <span id="connectionText">Demo mode</span>
+        </button>
+      </header>
+
+      <section class="eye-panel panel" aria-labelledby="eyes-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIGHTING SYSTEM</p>
+            <h2 id="eyes-heading">Eyes</h2>
+          </div>
+          <button class="power-button is-on" id="powerButton" type="button" aria-pressed="true">
+            <span aria-hidden="true">⏻</span> On
+          </button>
+        </div>
+
+        <div class="eye-preview" id="eyePreview" aria-label="Eye light preview">
+          <span class="eye left-eye"></span>
+          <span class="eye right-eye"></span>
+        </div>
+
+        <div class="color-row" aria-label="Eye color presets">
+          <button class="color-swatch active" type="button" data-color="#ff315a" style="--swatch: #ff315a" aria-label="Red"></button>
+          <button class="color-swatch" type="button" data-color="#ff8a34" style="--swatch: #ff8a34" aria-label="Orange"></button>
+          <button class="color-swatch" type="button" data-color="#ffd84d" style="--swatch: #ffd84d" aria-label="Gold"></button>
+          <button class="color-swatch" type="button" data-color="#62e6ff" style="--swatch: #62e6ff" aria-label="Cyan"></button>
+          <button class="color-swatch" type="button" data-color="#b977ff" style="--swatch: #b977ff" aria-label="Purple"></button>
+          <label class="custom-color" aria-label="Choose custom eye color">
+            <input id="customColor" type="color" value="#ff315a" />
+            <span>+</span>
+          </label>
+        </div>
+
+        <label class="range-label" for="brightness">
+          <span>Brightness</span><output id="brightnessValue">85%</output>
+        </label>
+        <input id="brightness" class="range" type="range" min="5" max="100" value="85" />
+
+        <div class="mode-grid" aria-label="Eye light effect">
+          <button class="mode-button active" type="button" data-mode="steady">Steady</button>
+          <button class="mode-button" type="button" data-mode="pulse">Pulse</button>
+          <button class="mode-button" type="button" data-mode="blink">Blink</button>
+          <button class="mode-button" type="button" data-mode="flicker">Flicker</button>
+        </div>
+      </section>
+
+      <section class="sound-panel panel" aria-labelledby="sound-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">AUDIO SYSTEM</p>
+            <h2 id="sound-heading">Voice lines</h2>
+          </div>
+          <button class="stop-button" id="stopButton" type="button">Stop</button>
+        </div>
+
+        <div class="now-playing" id="nowPlaying" aria-live="polite">
+          <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Ready for a command</span>
+        </div>
+
+        <div class="soundboard">
+          <button class="voice-button" type="button" data-line="Ahoy! Welcome aboard.">
+            <span class="voice-icon">⚓</span><span>Ahoy!</span>
+          </button>
+          <button class="voice-button" type="button" data-line="Yar har har!">
+            <span class="voice-icon">☠</span><span>Yar har</span>
+          </button>
+          <button class="voice-button" type="button" data-line="You can't hide forever.">
+            <span class="voice-icon">◉</span><span>Hunting</span>
+          </button>
+          <button class="voice-button" type="button" data-line="The show must go on.">
+            <span class="voice-icon">★</span><span>Showtime</span>
+          </button>
+          <button class="voice-button" type="button" data-line="I was never gone.">
+            <span class="voice-icon">↻</span><span>Return</span>
+          </button>
+          <button class="voice-button" type="button" data-line="System override activated.">
+            <span class="voice-icon">!</span><span>Override</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="quick-actions" aria-label="Quick actions">
+        <button type="button" class="danger-button" id="blackoutButton">Blackout</button>
+        <button type="button" class="scene-button" id="showtimeButton">Showtime scene</button>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
