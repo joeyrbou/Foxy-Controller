@@ -1,6 +1,6 @@
 # Foxy Suit Control
 
-A phone-first controller for a cosplay suit. Open `index.html` in a browser to use the visual demo. Five voice buttons play the included recordings; the remaining demo buttons use text-to-speech.
+A phone-first controller for a cosplay suit. Open `index.html` in a browser to use the visual demo. All six soundboard buttons play the included recordings.
 
 ## Connecting a suit
 
