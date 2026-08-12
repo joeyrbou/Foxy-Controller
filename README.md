@@ -5,7 +5,6 @@ A landscape phone soundboard for a cosplay suit. Turn your phone sideways, then 
 ## Phone controls
 
 - Tap **⛶** for full screen. The controller requests a landscape orientation lock while it is in full screen; support depends on the phone browser.
-- Tap **◔** to open the screen-angle knob. Drag it to the position you need, then tap **◔** again to lock the whole controller at that angle.
 - Tap **›** at the top to open the **Sound Library**. Choose **Add MP3 sound**, select one or more MP3 files, and buttons are added automatically. Added files are stored in that browser on that phone.
 
 ## Connecting a suit
