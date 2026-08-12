@@ -61,6 +61,18 @@ function renderAngle() {
   angleButton.title = angleButton.getAttribute('aria-label');
   dialNeedle.setAttribute('aria-hidden', 'true');
 }
+function applyScreenAngle() {
+  const radians = angleState.value * Math.PI / 180;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const rotatedWidth = Math.abs(width * Math.cos(radians)) + Math.abs(height * Math.sin(radians));
+  const rotatedHeight = Math.abs(width * Math.sin(radians)) + Math.abs(height * Math.cos(radians));
+  const scale = Math.min(width / rotatedWidth, height / rotatedHeight);
+  document.documentElement.style.setProperty('--screen-angle', `${angleState.value}deg`);
+  document.documentElement.style.setProperty('--screen-scale', scale.toFixed(4));
+  document.body.classList.add('screen-rotated');
+}
+function clearScreenAngle() { document.body.classList.remove('screen-rotated'); }
 function setAngleFromPointer(event) {
   if (angleState.locked) return;
   const box = angleDial.getBoundingClientRect();
@@ -68,12 +80,11 @@ function setAngleFromPointer(event) {
   const y = event.clientY - (box.top + box.height / 2);
   angleState.value = Math.round((Math.atan2(x, -y) * 180 / Math.PI + 360) % 360);
   renderAngle();
-  sendToSuit({ type: 'angle', angle: angleState.value, locked: false });
 }
 angleButton.addEventListener('click', () => {
   if (!angleState.visible) { angleState.visible = true; angleState.locked = false; }
-  else if (!angleState.locked) { angleState.locked = true; sendToSuit({ type: 'angle', angle: angleState.value, locked: true }); }
-  else angleState.locked = false;
+  else if (!angleState.locked) { angleState.locked = true; applyScreenAngle(); }
+  else { angleState.locked = false; clearScreenAngle(); }
   renderAngle();
 });
 angleDial.addEventListener('pointerdown', event => { if (!angleState.locked) { angleDial.setPointerCapture(event.pointerId); setAngleFromPointer(event); } });
@@ -82,7 +93,7 @@ angleDial.addEventListener('keydown', event => {
   if (angleState.locked || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
   event.preventDefault();
   angleState.value = (angleState.value + (event.key === 'ArrowRight' || event.key === 'ArrowUp' ? 5 : 355)) % 360;
-  renderAngle(); sendToSuit({ type: 'angle', angle: angleState.value, locked: false });
+  renderAngle();
 });
 
 function showPage(page) {
@@ -121,6 +132,7 @@ document.addEventListener('fullscreenchange', () => {
   if (!document.fullscreenElement) document.body.classList.remove('force-landscape');
 });
 window.addEventListener('resize', applyLandscapeFallback);
+window.addEventListener('resize', () => { if (angleState.locked) applyScreenAngle(); });
 
 function openDatabase() {
   return new Promise((resolve, reject) => {
