@@ -8,16 +8,20 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <main class="app-shell" id="commandPage">
       <header class="topbar">
         <div>
           <p class="eyebrow">FOXY // SUIT CONTROL</p>
           <h1>Command Deck</h1>
         </div>
-        <button class="connection-button" id="connectButton" type="button" aria-label="Connect to suit">
+        <div class="header-actions">
+          <button class="icon-button" id="fullscreenButton" type="button" aria-label="Enter full screen" title="Full screen">⛶</button>
+          <button class="icon-button" id="libraryButton" type="button" aria-label="Open sound library" title="Sound library">›</button>
+          <button class="connection-button" id="connectButton" type="button" aria-label="Connect to suit">
           <span class="connection-dot" aria-hidden="true"></span>
           <span id="connectionText">Demo mode</span>
-        </button>
+          </button>
+        </div>
       </header>
 
       <section class="sound-panel panel" aria-labelledby="sound-heading">
@@ -56,6 +60,21 @@
         </div>
       </section>
 
+    </main>
+    <main class="app-shell library-page" id="libraryPage" hidden>
+      <header class="topbar">
+        <button class="back-button" id="backButton" type="button" aria-label="Back to soundboard">‹ <span>Soundboard</span></button>
+        <button class="icon-button" id="libraryFullscreenButton" type="button" aria-label="Enter full screen" title="Full screen">⛶</button>
+      </header>
+      <section class="library-panel panel" aria-labelledby="library-heading">
+        <p class="eyebrow">YOUR SOUNDS</p>
+        <h1 id="library-heading">Sound Library</h1>
+        <p class="library-copy">Add an MP3 from your phone. It will become a new soundboard button and stay saved on this device.</p>
+        <label class="add-sound-button" for="audioPicker"><span>+</span> Add MP3 sound</label>
+        <input id="audioPicker" type="file" accept="audio/mpeg,audio/mp3,.mp3" hidden multiple />
+        <p class="upload-status" id="uploadStatus" aria-live="polite"></p>
+        <div class="library-list" id="libraryList"></div>
+      </section>
     </main>
     <script src="app.js"></script>
   </body>
