@@ -1,5 +1,6 @@
 const state = { color: '#ff315a', brightness: 85, power: true, mode: 'steady', connected: false };
 let suitSocket;
+let currentAudio;
 const preview = document.querySelector('#eyePreview');
 const powerButton = document.querySelector('#powerButton');
 const brightness = document.querySelector('#brightness');
@@ -43,9 +44,16 @@ document.querySelectorAll('.voice-button').forEach(button => button.addEventList
   const line = button.dataset.line;
   nowPlaying.textContent = `Playing: “${line}”`;
   sendToSuit({ type: 'voice', line });
-  if ('speechSynthesis' in window) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(line)); }
+  window.speechSynthesis?.cancel();
+  currentAudio?.pause();
+  if (button.dataset.audio) {
+    currentAudio = new Audio(button.dataset.audio);
+    currentAudio.play().catch(() => { nowPlaying.textContent = 'Could not play that audio file'; });
+  } else if ('speechSynthesis' in window) {
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(line));
+  }
 }));
-document.querySelector('#stopButton').addEventListener('click', () => { window.speechSynthesis?.cancel(); nowPlaying.textContent = 'Audio stopped'; sendToSuit({ type: 'stopAudio' }); });
+document.querySelector('#stopButton').addEventListener('click', () => { window.speechSynthesis?.cancel(); currentAudio?.pause(); nowPlaying.textContent = 'Audio stopped'; sendToSuit({ type: 'stopAudio' }); });
 document.querySelector('#blackoutButton').addEventListener('click', () => { state.power = false; renderEyes(); sendToSuit({ type: 'eyes', ...state }); });
 document.querySelector('#showtimeButton').addEventListener('click', () => { state.power = true; state.color = '#ff315a'; state.brightness = 100; state.mode = 'pulse'; brightness.value = 100; document.querySelectorAll('.mode-button').forEach(button => button.classList.toggle('active', button.dataset.mode === 'pulse')); renderEyes(); sendToSuit({ type: 'scene', name: 'showtime', ...state }); });
 document.querySelector('#connectButton').addEventListener('click', event => {
