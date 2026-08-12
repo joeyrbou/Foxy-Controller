@@ -1,4 +1,4 @@
-# Foxy Suit Control
+# Canadian Cosplays
 
 A landscape phone soundboard for a cosplay suit. Turn your phone sideways, then open `index.html` in a browser. All six buttons play the included recordings.
 

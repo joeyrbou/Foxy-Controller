@@ -51,23 +51,32 @@ document.querySelector('#backButton').addEventListener('click', () => showPage('
 
 async function toggleFullscreen() {
   try {
-    if (document.fullscreenElement) {
+    if (document.fullscreenElement || document.body.classList.contains('force-landscape')) {
+      document.body.classList.remove('force-landscape');
+      if (!document.fullscreenElement) return;
       await document.exitFullscreen();
       await screen.orientation?.unlock?.();
       return;
     }
     await document.documentElement.requestFullscreen();
-    await screen.orientation?.lock?.('landscape');
+    try { await screen.orientation?.lock?.('landscape'); } catch { /* CSS fallback below */ }
+    setTimeout(applyLandscapeFallback, 250);
   } catch {
-    uploadStatus.textContent = 'Full screen opened. Your browser may not allow orientation lock.';
+    applyLandscapeFallback();
   }
+}
+function applyLandscapeFallback() {
+  const portrait = window.matchMedia('(orientation: portrait)').matches;
+  document.body.classList.toggle('force-landscape', Boolean(document.fullscreenElement && portrait));
 }
 document.querySelector('#fullscreenButton').addEventListener('click', toggleFullscreen);
 document.querySelector('#libraryFullscreenButton').addEventListener('click', toggleFullscreen);
 document.addEventListener('fullscreenchange', () => {
   const label = document.fullscreenElement ? 'Exit full screen' : 'Enter full screen';
   document.querySelectorAll('[title="Full screen"]').forEach(button => { button.setAttribute('aria-label', label); button.textContent = document.fullscreenElement ? '×' : '⛶'; });
+  if (!document.fullscreenElement) document.body.classList.remove('force-landscape');
 });
+window.addEventListener('resize', applyLandscapeFallback);
 
 function openDatabase() {
   return new Promise((resolve, reject) => {
