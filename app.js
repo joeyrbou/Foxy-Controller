@@ -2,12 +2,19 @@ const state = { connected: false };
 let suitSocket;
 let currentAudio;
 let soundDatabase;
+const angleState = { value: 0, visible: false, locked: false };
 const commandPage = document.querySelector('#commandPage');
 const libraryPage = document.querySelector('#libraryPage');
 const soundboard = document.querySelector('.soundboard');
 const nowPlaying = document.querySelector('#nowPlaying span:last-child');
 const libraryList = document.querySelector('#libraryList');
 const uploadStatus = document.querySelector('#uploadStatus');
+const angleButton = document.querySelector('#angleButton');
+const anglePanel = document.querySelector('#anglePanel');
+const angleDial = document.querySelector('#angleDial');
+const angleValue = document.querySelector('#angleValue');
+const angleStatus = document.querySelector('#angleStatus');
+const dialNeedle = document.querySelector('#dialNeedle');
 
 function sendToSuit(command) {
   if (suitSocket?.readyState === WebSocket.OPEN) suitSocket.send(JSON.stringify(command));
@@ -39,6 +46,43 @@ document.querySelector('#stopButton').addEventListener('click', () => {
   currentAudio?.pause();
   nowPlaying.textContent = 'Audio stopped';
   sendToSuit({ type: 'stopAudio' });
+});
+
+function renderAngle() {
+  anglePanel.hidden = !angleState.visible;
+  angleDial.style.setProperty('--angle', `${angleState.value}deg`);
+  angleDial.setAttribute('aria-valuenow', angleState.value);
+  angleDial.classList.toggle('is-locked', angleState.locked);
+  angleValue.value = `${angleState.value}°`;
+  angleStatus.textContent = angleState.locked ? 'Locked' : 'Adjusting';
+  angleStatus.classList.toggle('locked', angleState.locked);
+  angleButton.textContent = angleState.locked ? '🔒' : '◔';
+  angleButton.setAttribute('aria-label', angleState.visible ? (angleState.locked ? 'Unlock angle' : 'Lock angle') : 'Set angle');
+  angleButton.title = angleButton.getAttribute('aria-label');
+  dialNeedle.setAttribute('aria-hidden', 'true');
+}
+function setAngleFromPointer(event) {
+  if (angleState.locked) return;
+  const box = angleDial.getBoundingClientRect();
+  const x = event.clientX - (box.left + box.width / 2);
+  const y = event.clientY - (box.top + box.height / 2);
+  angleState.value = Math.round((Math.atan2(x, -y) * 180 / Math.PI + 360) % 360);
+  renderAngle();
+  sendToSuit({ type: 'angle', angle: angleState.value, locked: false });
+}
+angleButton.addEventListener('click', () => {
+  if (!angleState.visible) { angleState.visible = true; angleState.locked = false; }
+  else if (!angleState.locked) { angleState.locked = true; sendToSuit({ type: 'angle', angle: angleState.value, locked: true }); }
+  else angleState.locked = false;
+  renderAngle();
+});
+angleDial.addEventListener('pointerdown', event => { if (!angleState.locked) { angleDial.setPointerCapture(event.pointerId); setAngleFromPointer(event); } });
+angleDial.addEventListener('pointermove', event => { if (angleDial.hasPointerCapture(event.pointerId)) setAngleFromPointer(event); });
+angleDial.addEventListener('keydown', event => {
+  if (angleState.locked || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+  event.preventDefault();
+  angleState.value = (angleState.value + (event.key === 'ArrowRight' || event.key === 'ArrowUp' ? 5 : 355)) % 360;
+  renderAngle(); sendToSuit({ type: 'angle', angle: angleState.value, locked: false });
 });
 
 function showPage(page) {

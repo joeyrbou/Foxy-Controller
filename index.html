@@ -11,13 +11,14 @@
     <main class="app-shell" id="commandPage">
       <header class="topbar">
         <div class="brand">
-          <span class="flag-logo" aria-hidden="true">🇨🇦</span>
+          <span class="flag-logo" aria-hidden="true"><span>🍁</span></span>
           <div>
           <p class="eyebrow">CANADIAN COSPLAYS</p>
           <h1>Command Deck</h1>
           </div>
         </div>
         <div class="header-actions">
+          <button class="icon-button" id="angleButton" type="button" aria-label="Set angle" title="Set angle">◔</button>
           <button class="icon-button" id="fullscreenButton" type="button" aria-label="Enter full screen" title="Full screen">⛶</button>
           <button class="icon-button" id="libraryButton" type="button" aria-label="Open sound library" title="Sound library">›</button>
           <button class="connection-button" id="connectButton" type="button" aria-label="Connect to suit">
@@ -26,6 +27,22 @@
           </button>
         </div>
       </header>
+
+      <section class="angle-panel panel" id="anglePanel" hidden aria-labelledby="angle-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">POSITION CONTROL</p>
+            <h2 id="angle-heading">Angle <output id="angleValue">0°</output></h2>
+          </div>
+          <span class="angle-status" id="angleStatus">Adjusting</span>
+        </div>
+        <div class="angle-dial" id="angleDial" role="slider" aria-label="Suit angle" aria-valuemin="0" aria-valuemax="360" aria-valuenow="0" tabindex="0">
+          <span class="dial-marker marker-top"></span><span class="dial-marker marker-right"></span><span class="dial-marker marker-bottom"></span><span class="dial-marker marker-left"></span>
+          <span class="dial-needle" id="dialNeedle"></span>
+          <span class="dial-center"></span>
+        </div>
+        <p class="angle-help">Drag the knob to set the angle, then tap the angle button again to lock it.</p>
+      </section>
 
       <section class="sound-panel panel" aria-labelledby="sound-heading">
         <div class="section-heading">
