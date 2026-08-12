@@ -20,47 +20,6 @@
         </button>
       </header>
 
-      <section class="eye-panel panel" aria-labelledby="eyes-heading">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">LIGHTING SYSTEM</p>
-            <h2 id="eyes-heading">Eyes</h2>
-          </div>
-          <button class="power-button is-on" id="powerButton" type="button" aria-pressed="true">
-            <span aria-hidden="true">⏻</span> On
-          </button>
-        </div>
-
-        <div class="eye-preview" id="eyePreview" aria-label="Eye light preview">
-          <span class="eye left-eye"></span>
-          <span class="eye right-eye"></span>
-        </div>
-
-        <div class="color-row" aria-label="Eye color presets">
-          <button class="color-swatch active" type="button" data-color="#ff315a" style="--swatch: #ff315a" aria-label="Red"></button>
-          <button class="color-swatch" type="button" data-color="#ff8a34" style="--swatch: #ff8a34" aria-label="Orange"></button>
-          <button class="color-swatch" type="button" data-color="#ffd84d" style="--swatch: #ffd84d" aria-label="Gold"></button>
-          <button class="color-swatch" type="button" data-color="#62e6ff" style="--swatch: #62e6ff" aria-label="Cyan"></button>
-          <button class="color-swatch" type="button" data-color="#b977ff" style="--swatch: #b977ff" aria-label="Purple"></button>
-          <label class="custom-color" aria-label="Choose custom eye color">
-            <input id="customColor" type="color" value="#ff315a" />
-            <span>+</span>
-          </label>
-        </div>
-
-        <label class="range-label" for="brightness">
-          <span>Brightness</span><output id="brightnessValue">85%</output>
-        </label>
-        <input id="brightness" class="range" type="range" min="5" max="100" value="85" />
-
-        <div class="mode-grid" aria-label="Eye light effect">
-          <button class="mode-button active" type="button" data-mode="steady">Steady</button>
-          <button class="mode-button" type="button" data-mode="pulse">Pulse</button>
-          <button class="mode-button" type="button" data-mode="blink">Blink</button>
-          <button class="mode-button" type="button" data-mode="flicker">Flicker</button>
-        </div>
-      </section>
-
       <section class="sound-panel panel" aria-labelledby="sound-heading">
         <div class="section-heading">
           <div>
@@ -97,10 +56,6 @@
         </div>
       </section>
 
-      <section class="quick-actions" aria-label="Quick actions">
-        <button type="button" class="danger-button" id="blackoutButton">Blackout</button>
-        <button type="button" class="scene-button" id="showtimeButton">Showtime scene</button>
-      </section>
     </main>
     <script src="app.js"></script>
   </body>
